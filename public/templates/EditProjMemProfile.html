@@ -1,0 +1,248 @@
+{% extends "layout.html" %}
+{% block content %}
+    
+<style>
+    div.scroll {
+    height: 400px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align:justify;
+  }
+    #myInput {
+    background-image: url('https://hestiatest.blob.core.windows.net/general-layout/searchIcon.png');
+    background-position: 5px 8px;
+    background-repeat: no-repeat;
+    width: 50%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+    margin-left: 25%;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    
+    input[type=text], select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+    }
+    
+    label {
+      padding: 12px 12px 12px 22px;
+      display: inline-block;
+    }
+    
+    input[type=submit] {
+      background-color: #04AA6D;
+      color: white;
+      padding: 12px 90px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 40%;
+    }
+    
+    input[type=submit]:hover {
+      background-color: #45a049;
+    }
+    
+
+
+
+    /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    .row {
+        margin-right: 0px;
+        margin-left: 0px;
+    }
+
+    .container1 {
+      border-radius: 5px;
+      background-color: #f2f2f2;
+      padding: 0px;
+      margin-right: 7%;
+      margin-left: 7%;
+      border: rgb(75, 75, 75);
+      border-width: 2px;
+      border-style: solid;
+    }
+
+
+    @media screen and (max-width: 600px) {
+      .left, .right, input[type=submit] {
+        width: 80%;
+        margin-top: 0;
+      }
+    }
+    ul {
+        margin: 0;
+        padding: 0;
+    }
+    
+    /* Style the list items */
+    ul li {
+        cursor: pointer;
+        position: relative;
+        margin: 10px ;
+        padding: 12px 8px 12px 40px;
+        list-style-type: none;
+        background: #eee;
+        font-size: 18px;
+        transition: 0.2s;
+
+        align-content: center;
+        
+        
+        /* make the list items unselectable */
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    
+    /* Set all odd list items to a different color (zebra-stripes) */
+    ul li:nth-child(odd) {
+        background: #f9f9f9;
+    }
+    
+    /* Darker background-color on hover */
+    ul li:hover {
+        background: #ddd;
+    }
+    
+    /* When clicked on, add a background color and strike out text */
+    ul li.checked {
+        background: rgb(0, 179, 89);
+        color: rgb(88, 88, 88);
+    }
+    .col-50 {
+      float: left;
+      width: 50%;
+      margin-top: 6px;
+    }
+    
+    .btn {
+        border: none;
+        outline: none;
+        padding: 12px 16px;
+        background-color: #f1f1f1;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+    background-color: #ddd;
+    font-size: 100%;
+    }
+
+    .btn.active {
+    background-color: rgb(13, 223, 118);
+    color: white;
+    }
+    </style>
+    </head>
+    <body>
+    
+    <h1 style= "margin-left: 7%;">Edit Project's Team Member Profiles</h1>
+    <hr style= "height:2px;border-width:0px;color:rgba(43, 43, 43, 0.925);background-color:rgb(80, 80, 80);width:80%">
+
+    <div style= "margin-left: 7%;margin-right: 7%;" class="row" id="myBtnContainer">
+        <div class="col-50">
+            <button class="btn active" onclick="filterSelection('all')"> All Users </button>
+        </div>
+        <div class="col-50">
+            <button class="btn" onclick="filterSelection('True')"> Current</button>
+        </div>
+    </div>
+    <div class="container1" >
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Users.." title="Type in a name">
+        <form action="//www.html.am/html-codes/forms/html-form-tag-action.cfm" target="result2" method="get">
+            <div class="scroll">
+                <ul id="myUL" class = 'UserLists'>
+                </ul>
+            </div>
+        </form>
+    </div>
+
+    
+    <input type="submit" value="Update Project Team">
+    </body>
+    <script>
+        
+      let CurrUsers = JSON.parse('{{CurrProjTeamMemEmail| tojson}}');
+      let UserDict = JSON.parse('{{UserDict| tojson}}');
+      let AllEmails = Object.keys(UserDict);
+      let k, len,m,len1;
+      newDatList = [];
+      var MainList = document.getElementById("myUL");
+      for (k = 0, len = AllEmails.length; k < len; k++) {
+          Username = UserDict[AllEmails[k]];
+          var UserList =document.createElement("li");
+          var UserListInput = document.createElement("input");
+          var Label = document.createElement("label");
+          UserListInput.type = "checkbox";
+          Label.textContent= Username + '  ( '+ AllEmails[k]+' )';
+          Label.setAttribute("id", "User");
+          if(CurrUsers.includes(AllEmails[k])) {
+              UserListInput.checked = true;
+              UserList.setAttribute("class", "UserList True");
+          } else {
+              UserListInput.checked = false;
+              UserList.setAttribute("class", "UserList False");
+          }
+          
+          UserList.appendChild(UserListInput);
+          UserList.appendChild(Label);
+          MainList.appendChild(UserList)
+      }
+      filterSelection("all")
+      function filterSelection(c) {
+        var x, i;
+        x = document.getElementsByClassName("UserList");
+        if (c == "all") c = "";
+        for (i = 0; i < x.length; i++) {
+          x[i].style.display = "none";
+          if (x[i].className.indexOf(c) > -1) x[i].style.display = "";;
+        }
+      }
+      
+      // Add active class to the current button (highlight it)
+      var btnContainer = document.getElementById("myBtnContainer");
+      var btns = btnContainer.getElementsByClassName("btn");
+      for (var i = 0; i < btns.length; i++) {
+        btns[i].addEventListener("click", function(){
+          var current = document.getElementsByClassName("active");
+          current[0].className = current[0].className.replace(" active", "");
+          this.className += " active";
+        });
+      }
+
+      function myFunction() {
+          var input, filter, ul, li, a, i, txtValue;
+          input = document.getElementById("myInput");
+          filter = input.value.toUpperCase();
+          // ul = document.getElementById("myUL");
+          var ul = document.getElementsByClassName("UserList");
+          var uli = document.getElementsByClassName("UserLists");
+          a = document.getElementById("User");
+          // console.log(li[0].textContent)
+          for (i = 0; i < ul.length; i++) {
+              a = ul[i];
+              console.log(ul.length)
+              txtValue = a.textContent || a.innerText;
+              if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                  ul[i].style.display = "";
+              } else {
+                  ul[i].style.display = "none";
+              }
+            }
+        }
+        </script>
+{% endblock content %}

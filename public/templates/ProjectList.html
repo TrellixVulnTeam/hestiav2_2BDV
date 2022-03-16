@@ -1,0 +1,123 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+    #myInput {
+    background-image: url('https://hestiatest.blob.core.windows.net/general-layout/searchIcon.png');
+    background-position: 5px 8px;
+    background-repeat: no-repeat;
+    width: 50%;
+    font-size: 16px;
+    padding: 12px 20px 12px 40px;
+    border: 1px solid #ddd;
+    margin-bottom: 12px;
+    margin-left: 25%;
+    }
+    .col-10 {
+        float: left;
+        width: 10%;
+        margin-top: 10px;
+        }
+        .col-90 {
+        float: left;
+        width: 90%;
+        margin-top: 6px;
+        }
+        .row:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+        .row {
+            margin-right: 0px;
+            margin-left: 0px;
+        }
+</style>
+
+<h1 style="text-align: center;">My Projects</h1>
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Projects.." title="Type in a name">
+
+
+{% for projs in ProjList %}
+    {% for p in projs %}
+        <div id="myUL" class="media">
+            <div class="media-left">
+                <img class="float-left" width="750" height=auto src="{{'https://hestiatest.blob.core.windows.net/'+ p.ProjContainer+'/Cover_Img.jpg'  }}">
+            </div>
+            <div class="media-body">
+                <div class="article-metadata">
+                    <div class="row">
+                        <div class="col-90">
+                            <h2 ><a id = "ProjectName" class="article-title" href="{{ url_for('viewer') }}"onclick="location.href=this.href+'?urn={{ p.URN }}';return false;">{{ p.ProjName }}</a></h2>
+                        </div>
+                        {% if current_user.get_Auth() >= 3 %}
+                            <div class="col-10">
+                                <a id="EditProj" href="{{ url_for('EditProj') }}"onclick="location.href=this.href+'?urn={{ p.URN }}';return false;"><img class="img-thumbnail" width="40" height=auto src="https://hestiatest.blob.core.windows.net/general-layout/icons8-edit-48.png@2x.png" ></a>
+                                <a id="EditProjUserAccss" href="{{ url_for('EditProjUserAccss') }}"onclick="location.href=this.href+'?urn={{ p.URN }}';return false;"><img class="img-thumbnail" width="40" height=auto src="https://hestiatest.blob.core.windows.net/general-layout/icons8-edit-user-48.png@2x.png" ></a> 
+                            </div>
+                        {% else %}
+                        {% endif %}
+                    </div>
+                    <small class="text-muted">Last Updated : {{ p.UpdatedDate }}</small>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar"
+                    aria-valuenow="{{p.PercentComp}}" aria-valuemin="0" aria-valuemax="100" style="width:{{p.PercentComp}}%">
+                    {{p.PercentComp}}%
+                    </div>
+                </div>
+                <p class="article-content">{{ p.Descr }}</p>
+                {% if current_user.get_Auth() >= 1 %}
+                    <div class = "ProjFeatures" style="margin-left: 2.5%;margin-right: 2.5%;">
+                        <div style="width: 30%; height: 80px; float: left; " >
+                            <a id="stat1" href="{{ url_for('Budget') }}"onclick="location.href=this.href+'?urn={{ p.URN }}';return false;"><img class="img-thumbnail" width="55" height=auto src="https://hestiatest.blob.core.windows.net/general-layout/Budget.png" > Scope, Budget & Schedules</a>  
+                        </div>
+                        <div style="float: left;width: 30%; height: 80px;">
+                            <a id="stat1" href="{{ url_for('CheckLst') }}"onclick="location.href=this.href+'?urn={{ p.URN }}';return false;"><img class="img-thumbnail" width="55" height=auto src="https://hestiatest.blob.core.windows.net/general-layout/CheckLst.png">  Checklist</a>                 
+                        </div>
+                        <div  style="float: right;width: 35%; height: 80px;">
+                            <a id="stat1" href="{{ url_for('MyFilesPg') }}"onclick="location.href=this.href+'?urn={{ p.URN }}';return false;"><img class="img-thumbnail" width="55" height=auto src="https://hestiatest.blob.core.windows.net/general-layout/MyFiles.png" > My Project Files</a>      
+                        </div>
+                        <div  style="width: 30%; height: 80px; float: left; ">
+                            <a id="stat1" href="{{ url_for('Enscape') }}"onclick="location.href=this.href+'?Ensc={{ p.EnscpRen }}';return false;"><img class="img-thumbnail" width="55" height=auto src="https://hestiatest.blob.core.windows.net/general-layout/Enscape1.png">  Enscape 3D</a>                
+                        </div>
+                        <div  style="float: left;width: 30%; height: 80px;">
+                            <a id="stat1" href="{{ url_for('Stats') }}"onclick="location.href=this.href+'?PBI={{ p.PBI }}';return false;"><img class="img-thumbnail" width="55" height=auto src="https://hestiatest.blob.core.windows.net/general-layout/Stats.png"> Stats Dashboard</a>           
+                        </div>
+                        <div style="float: right;width: 35%; height: 80px;" >
+                            <a id="stat1" href="{{ url_for('MyProjectTeam') }}"onclick="location.href=this.href+'?urn={{ p.URN }}';return false;"><img class="img-thumbnail" width="55" height=auto src="https://hestiatest.blob.core.windows.net/general-layout/ProjectTeam.png">  Project Team</a>
+                        </div>
+                        <div  style="float: left;width: 30%; height: 80px; float: left;">
+                            <a id="stat1" href="{{ url_for('MyOptionsPg') }}"onclick="location.href=this.href+'?urn={{ p.URN }}';return false;"><img class="img-thumbnail" width="55" height=auto src="https://hestiatest.blob.core.windows.net/general-layout/CompOptions.png"> A3 Compare & Select Options</a>           
+                        </div>
+                    </div>
+                {% else %}
+                {% endif %}
+            </div> 
+            <!-- <hr style= "height:2px;border-width:0px;color:rgba(43, 43, 43, 0.925);background-color:rgb(80, 80, 80);width:80%"> -->
+        </div>
+        
+    {% endfor %}
+{% endfor %}
+<script>
+    function myFunction() {
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        // ul = document.getElementById("myUL");
+        var ul   = document.getElementsByClassName("media");
+        a = document.getElementById("ProjectName");
+        // console.log(li[0].textContent)
+        for (i = 0; i < ul.length; i++) {
+            a = ul[i].getElementsByTagName("a")[0];
+            console.log(a)
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                ul[i].style.display = "";
+            } else {
+                ul[i].style.display = "none";
+            }
+        }
+    }
+    </script>
+
+{% endblock content %}

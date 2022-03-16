@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block content %}
+
+  <body>
+    
+    <div class="container-fluid main">
+
+      <div id="myCarousel" class="carousel slide carousel-fade" data-ride="carousel">
+        
+        <div class="carousel-inner" role="listbox">
+          <div class="carousel-item active">
+            <video class="img-fluid" autoplay loop muted height="1023">
+              <source src="https://hestiatest.blob.core.windows.net/general-layout/HESTIA DEMO.mp4" type="video/mp4" />
+            </video>
+            <div class="carousel-caption d-none d-md-block">
+              <h4>Ramsey</h4>
+              <p>
+                Demo Test Model
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="covertext">
+        <div class="MainPageheader">
+          {% if current_user.is_authenticated %}
+            <h1>Welcome {{ current_user.Username }}</h1>
+            <h2>Proceed to My Projects to get a deeper look into your digital building</h2>
+          {% else %}
+            <h1>Welcome</h1>
+            <h2>Login to view your Digital Buidings or Contact us to get an account set up</h2>
+          {% endif %}
+        </div>
+        
+
+      </div>
+      
+    </div>
+ 
+    <script>$('#myCarousel').carousel();</script>
+      
+    
+{% endblock content %}

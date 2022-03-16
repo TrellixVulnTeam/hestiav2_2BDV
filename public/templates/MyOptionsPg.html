@@ -1,0 +1,290 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+  
+  .column {
+    float: left;
+    width: 33.3%;
+    margin-bottom: 16px;
+    padding: 0 8px;
+  }
+  
+  @media screen and (max-width: 650px) {
+    .column {
+      width: 90%;
+      display: block;
+      padding: 0 8px;
+    }
+  }
+  
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+  .container5 {
+    padding: 0 16px;
+  }
+  
+  .container5::after, .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  .title {
+    color: grey;
+  }
+  /* .row{
+    margin-right: 5px;
+    margin-left: 5px;
+  } */
+  #button {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    margin: 0px 0px;
+  }
+  
+  #button:hover {
+    background-color: #555;
+  }
+  
+  table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  align-content: center;
+  margin-bottom: 16px;
+}
+tr:nth-child(odd){background-color: #f2f2f2}
+
+.accordion {
+  background-color: #eee;
+  color: rgb(87, 87, 87);
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+}
+
+.active, .accordion:hover {
+  font-size: 200%;
+  font-weight: bolder;
+  background-color: rgb(235, 235, 235); 
+}
+
+.panel {
+  padding: 0 18px;
+  display: none;
+  background-color: rgba(131, 131, 131,0);
+  overflow: hidden;
+}
+  </style>
+  </head>
+  <body>
+  
+  
+  <h1 style="text-align: center;">Architecture Design Options</h1>
+  <br>
+  <div id="MainBox">
+  <button class="accordion">Building Options 2022-03-14</button>
+  <div  class="panel">
+ 
+    <div class="column">
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/' + 'DesOpt1.png') }}" alt="Option 1" style="width:100%">
+        <div class="container5">
+          <h2>Option 1</h2>
+          <p class="title">Da Plain ol' square</p>
+          <p>its a box with stuff in it</p>
+          <h3>Pros</h3>
+          <p>Its gonna be cheap as hell</p>
+          <h3>Cons</h3>
+          <p>Its gonna be boring as hell</p>
+          <div style="overflow-x:auto;">
+            <table>
+              <tr>
+                <th>COST</th>
+                <td>1500000</th>
+              </tr>
+              <tr>
+                <th>Design Time</th>
+                <td>6 months</th>
+              </tr>
+              <tr>
+                <th>Construction Time</th>
+                <td>10 months</th>
+              </tr>
+            </table>
+          </div>
+          <button id="button">Choose Option 1</button>
+        </div>
+      </div>
+    </div>
+  
+    <div class="column">
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/' + 'DesOpt2.png') }}" alt="Option 2" style="width:100%">
+        <div class="container5">
+          <h2>Option 2</h2>
+          <p class="title">Ziggy</p>
+          <p>What's better than 1 box? TWO boxes!!</p>
+          <h3>Pros</h3>
+          <p>Its gonna be more interesting than the first option</p>
+          <h3>Cons</h3>
+          <p>Its gonna be a lil more expensive</p>
+          <div style="overflow-x:auto;">
+            <table>
+              <tr>
+                <th>COST</th>
+                <td>1589000</th>
+              </tr>
+              <tr>
+                <th>Design Time</th>
+                <td>7 months</th>
+              </tr>
+              <tr>
+                <th>Construction Time</th>
+                <td>10 months</th>
+              </tr>
+            </table>
+          </div>
+          <p><button id="button">Choose Option 2</button></p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="column">
+      <div class="card">
+        <img src="{{ url_for('static', filename='images/' + 'DesOpt3.png') }}" alt="Option 3" style="width:100%">
+        <div class="container5">
+          <h2>Option 3</h2>
+          <p class="title">the tall skinny</p>
+          <p>Get this: Its a box on top of a box!!!</p>
+          <h3>Pros</h3>
+          <p>uses lesser real estate</p>
+          <h3>Cons</h3>
+          <p>Its gonna cost a lot more and the stairs are gonna take up interior space</p>
+          <div style="overflow-x:auto;">
+            <table>
+              <tr>
+                <th>COST</th>
+                <td>1990000</th>
+              </tr>
+              <tr>
+                <th>Design Time</th>
+                <td>7 months</th>
+              </tr>
+              <tr>
+                <th>Construction Time</th>
+                <td>11 months</th>
+              </tr>
+            </table>
+          </div>
+          <p><button id="button">Choose Option 3</button></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let OptionDict = JSON.parse('{{OptionDict| tojson}}');
+      let AccordianTitles = Object.keys(OptionDict);
+      let k, len,m,len1;
+      newDatList = [];
+      for (k = 0, len = AccordianTitles.length; k < len; k++) {
+        MainDesOptDeets = OptionDict[AccordianTitles[k]];
+
+        var AccordionButton =document.createElement("BUTTON");
+        AccordionButton.textContent= AccordianTitles[k];
+        AccordionButton.setAttribute("class", "accordion");
+
+        var panel = document.createElement("div");
+        panel.setAttribute("class", "panel");
+
+        for (m = 0, len = MainDesOptDeets.length; m < len; m++) {
+        let DesOptDeets = OptionDict[AccordianTitles[k]][m];
+        let DesOptImgSrc = DesOptDeets[0];
+        let DesOptTitle = DesOptDeets[1];
+        let DesOptDesc = DesOptDeets[2];
+
+        var col = document.createElement("div");
+        col.setAttribute("class", "column");
+
+        var card = document.createElement("div");
+        card.setAttribute("class", "card");
+
+        var imgOpt =document.createElement("img");
+        imgOpt.src += DesOptImgSrc;
+        imgOpt.setAttribute("style", "width:100%");
+
+        var con5 = document.createElement("div");
+        con5.setAttribute("class", "container5");
+
+        var OptName = document.createElement("h2");
+        OptName.textContent= DesOptTitle;
+
+        var TableDiv = document.createElement("div");
+        TableDiv.setAttribute("style", "overflow-x:auto;");
+
+        function tableCreate() {
+          
+          const tbl = document.createElement('table');
+
+          for (let i = 0; i < 3; i++) {
+            const tr = tbl.insertRow();
+            for (let j = 0; j < 2; j++) {
+              if (i === 2 && j === 2) {
+                break;
+              } else {
+                const td = tr.insertCell();
+                td.appendChild(document.createTextNode(`Cell I${i}/J${j}`));
+                
+              }
+            }
+          }
+          TableDiv.appendChild(tbl);
+        }
+
+        con5.appendChild(OptName);
+        con5.appendChild(TableDiv);
+        tableCreate();
+        card.appendChild(imgOpt);
+        card.appendChild(con5);
+        col.appendChild(card);
+        panel.appendChild(col);
+
+        var MainBox = document.getElementById("MainBox");
+        MainBox.appendChild(AccordionButton);
+        MainBox.appendChild(panel);
+
+        }
+      }
+  var acc = document.getElementsByClassName("accordion");
+  var i;
+  
+  for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var panel = this.nextElementSibling;
+      if (panel.style.display === "block") {
+        panel.style.display = "none";
+      } else {
+        panel.style.display = "block";
+      }
+    });
+  }
+
+  </script>
+{% endblock content %}
+

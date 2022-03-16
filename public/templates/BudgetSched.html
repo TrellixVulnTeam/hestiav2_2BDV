@@ -1,0 +1,141 @@
+{% extends "layout.html" %}
+{% block content %}
+<h1 style="text-align: center;">Scope, Budget & Schedule</h1>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/xrange.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<style>
+  html {
+    box-sizing: border-box;
+  }
+  .row {
+    margin-right: 6px;
+    margin-left: 6px;
+  }
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
+  
+  .column {
+    float: left;
+    width: 50%;
+    margin-bottom: 16px;
+    padding: 0 8px;
+  }
+  .FullCol {
+    float: left;
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 0 8px;
+    background: lightgray;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    align-content: center;
+  }
+  @media screen and (max-width: 650px) {
+    .column {
+      width: 100%;
+      display: block;
+    }
+  }
+  
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+  
+  .container {
+    padding: 0 16px;
+  }
+  
+  .container::after, .row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  .title {
+    color: grey;
+  }
+  
+
+  </style>
+
+<div class="row">
+  <div class="FullCol">
+    
+    <h1 class="title">PROJECT SCOPE</h1>
+    <h3>This is a Fixed-Price Contract
+      Contractor commitment estimate is U.S. $750,000.00.
+      Upon completion, the new property will include the following as
+      described in the detailed specifications and blueprint:</h3>
+    <li>Landscaping</li>
+    <li>Foundation (with basement)—poured concrete and concrete block</li>
+    <li>Driveway—2000 feet, concrete with brick inlay</li>
+    <li>Main home—4500 square feet, brick/stucco</li>
+    <li>Deck / Patio / Screen Room</li>
+    <li>Garage—1600 square feet, two story</li>
+    
+  </div>
+  <div class="column">
+    <div class="card">
+      <figure class="highcharts-figure">
+        <div id="container"></div>
+        <p class="highcharts-description">
+          Note : This may not be an accurate representation of your current status. Refer contracts or contact archiect for official details. THIS IS ONLY A STATIC REPRESENTATION!
+        </p>
+      
+        <table id="datatable">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Project Budget</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>Predesign</th>
+              <td>5</td>
+            </tr>
+            <tr>
+              <th>Schedmatic Design</th>
+              <td>15</td>
+            </tr>
+            <tr>
+              <th>Design Development</th>
+              <td>20</td>
+            </tr>
+            <tr>
+              <th>Contract Documents</th>
+              <td>40</td>
+            </tr>
+            <tr>
+              <th>Bidding</th>
+              <td>5</td>
+            </tr>
+            <tr>
+              <th>Construction Administration</th>
+              <td>15</td>
+            </tr>
+          </tbody>
+        </table>
+    </figure>
+    </div>
+  </div>
+
+  <div class="column">
+    <div class="card">
+      <figure class="highcharts-figure">
+        <div id="container1"></div>
+        <p class="highcharts-description">
+          Schedules shown may vary greatly to the actual schedule, this is only an estimate.
+        </p>
+    </figure>
+    </div>
+  </div>
+</div>
+ 
+<script src="{{ url_for('static', filename='js/BudgetPieChart.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ProjTimeLine.js') }}"></script>
+{% endblock content %}

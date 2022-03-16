@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+  <div id="Stats">
+    <iframe  id="PBI"  frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="this.contentWindow.focus();" allowtransparency="false"></iframe>
+    
+    <script>
+      queryString = window.location.search;
+      urlParams = new URLSearchParams(queryString);
+      var CurrPBI = urlParams.get('PBI');
+      console.log(CurrPBI)
+      document.getElementById("PBI").src = CurrPBI;
+      
+      
+    </script>
+    
+  </div> 
+
+  
+
+{% endblock content %}

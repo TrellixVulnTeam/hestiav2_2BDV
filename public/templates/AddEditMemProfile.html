@@ -1,0 +1,245 @@
+{% extends "layout.html" %}
+{% block content %}
+    
+    <style>
+        div.scroll {
+				height: 400px;
+				overflow-x: hidden;
+				overflow-y: auto;
+				text-align:justify;
+			}
+        #myInput {
+        background-image: url('https://hestiatest.blob.core.windows.net/general-layout/searchIcon.png');
+        background-position: 5px 8px;
+        background-repeat: no-repeat;
+        width: 50%;
+        font-size: 16px;
+        padding: 12px 20px 12px 40px;
+        border: 1px solid #ddd;
+        margin-bottom: 12px;
+        margin-left: 25%;
+        }
+        * {
+          box-sizing: border-box;
+        }
+        
+        input[type=text], select, textarea {
+          width: 100%;
+          padding: 12px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          resize: vertical;
+        }
+        
+        label {
+          padding: 12px 12px 12px 0;
+          display: inline-block;
+        }
+        
+        input[type=submit] {
+          background-color: #04AA6D;
+          color: white;
+          padding: 12px 90px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          margin-left: 40%;
+        }
+        
+        input[type=submit]:hover {
+          background-color: #45a049;
+        }
+        
+        .container1 {
+          border-radius: 5px;
+          background-color: #f2f2f2;
+          padding: 0px;
+          margin-right: 5%;
+          border: rgb(75, 75, 75);
+          border-width: 2px;
+          border-style: solid;
+        }
+        
+        .col-25 {
+          float: left;
+          width: 25%;
+          margin-top: 6px;
+        }
+
+        .col-75 {
+          float: left;
+          width: 75%;
+          margin-top: 6px;
+        }
+        /* Create two unequal columns that floats next to each other */
+        .column {
+        float: left;
+        padding: 15px; 
+        
+        }
+
+        .left {
+        width: 40%;
+        margin-left: 7%;
+        }
+
+        .middle{
+        margin-top: 15%;
+        }
+
+        .right {
+        width: 40%;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+        .row {
+            margin-right: 0px;
+            margin-left: 0px;
+        }
+        /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+        @media screen and (max-width: 600px) {
+          .col-25, .col-75, input[type=submit] {
+            width: 60%;
+            margin-top: 0;
+          }
+        }
+        @media screen and (max-width: 600px) {
+          .left, .right, input[type=submit] {
+            width: 80%;
+            margin-top: 0;
+          }
+        }
+        ul {
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Style the list items */
+        ul li {
+            cursor: pointer;
+            position: relative;
+            margin: 10px ;
+            padding: 12px 8px 12px 40px;
+            list-style-type: none;
+            background: #eee;
+            font-size: 18px;
+            transition: 0.2s;
+
+            align-content: center;
+            
+            
+            /* make the list items unselectable */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        
+        /* Set all odd list items to a different color (zebra-stripes) */
+        ul li:nth-child(odd) {
+            background: #f9f9f9;
+        }
+        
+        /* Darker background-color on hover */
+        ul li:hover {
+            background: #ddd;
+        }
+        
+        /* When clicked on, add a background color and strike out text */
+        ul li.checked {
+            background: rgb(0, 179, 89);
+            color: rgb(88, 88, 88);
+        }
+        </style>
+        </head>
+        <body>
+        
+        <h1 style= "margin-left: 7%;">Add/Edit Project Team Members' Profile</h1>
+        <hr style= "height:2px;border-width:0px;color:rgba(43, 43, 43, 0.925);background-color:rgb(80, 80, 80);width:80%">
+        <div class="row">
+            <div class="column left">
+                <div style = "width: 100%;" class="container">
+                    <form action="/action_page.php">
+                        <div class="row">
+                            <div class="col-25">
+                            <label for="MemImg"> Member Image : </label>
+                            </div>
+                            <div class="col-75">
+                                <input type="file" id="myFile" name="filename">
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-25">
+                            <label for="fname">Member Name</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="text" id="fname" name="MemName" placeholder="GS_User_5">
+                        </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-25">
+                                <label for="JobTitle">Job Title</label>
+                            </div>
+                            <div class="col-75">
+                                <input type="text" id="JobTitle" name="JobTitle" placeholder="King of France">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-25">
+                                <label for="PersQuote">Personal Quote</label>
+                            </div>
+                            <div class="col-75">
+                                <input type="text" id="PersQuote" name="PersQuote" placeholder="OUI CROISSANT! sil vous plait">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-25">
+                                <label for="MemEmail">Member Email</label>
+                            </div>
+                            <div class="col-75">
+                                <input type="text" id="MemEmail" name="MemEmail" placeholder="louisthetwenty@notsooriginal.com">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-25">
+                                <label for="MemDescr">Member Description</label>
+                            </div>
+                            <div class="col-75">
+                                <textarea id="MemDescr" name="MemDescr" placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce convallis pellentesque metus id lacinia. Nunc dapibus pulvinar auctor. Duis nec sem at orci commodo viverra id in ipsum." style="height:200px"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="column middle">
+                <a id="EditProfile" onclick="'Populate with selected user info'"><img class="img-thumbnail" width="55" height=auto src="https://hestiatest.blob.core.windows.net/general-layout/EditLeft.png" ></a>
+            </div>
+            <div class="column right">
+                <div class="container1">
+                    <h2 style="margin-left: 40%;">Member Profiles</h2>
+                    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Stored Member Profiles.." title="Type in a name">
+                    <form action="//www.html.am/html-codes/forms/html-form-tag-action.cfm" target="result2" method="get">
+                        <div class="scroll">
+                            <ul id="myUL">
+                                <li><input type="radio" name="AccUser" value="male"> <img class="img-thumbnail" width="65" height=auto src="https://hestiatest.blob.core.windows.net/project-team-profilepics/Michael.jpg" > Michael Jackson</li>
+                                <li><input type="radio" name="AccUser" value="female"> Michael Jordan</li>
+                                <li><input type="radio" name="AccUser" value="unknown"> Arnold Schwazenneger</li>
+                            </ul>
+                        </div>
+                    </form>
+                        <!-- <h3>Result:</h3>
+                        <iframe name="result2" style="height:100px;width:200px;"></iframe> -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <input type="submit" value="Create New/Update Member Profile">
+        </div>
+        </body>
+{% endblock content %}

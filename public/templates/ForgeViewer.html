@@ -1,0 +1,332 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+<style>
+  .IconExtension1 {
+    background-image: url(https://github.com/encharm/Font-Awesome-SVG-PNG/raw/master/white/png/24/dashboard.png);
+    background-size: 24px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+</style>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/gh/autodesk-forge/forge-extensions/public/extensions/IconMarkupExtension/contents/main.css">
+<script src="{{ url_for('static', filename='js/my-awesome-extension.js') }}"></script>
+<script src="{{ url_for('static', filename='js/SheetTestButton.js') }}"></script>
+  <div id = "BIM Data">
+    <div class="container-fluid fill">
+      <div class="row fill">
+        <div class="col-sm-12 fill">
+      
+          <div id="forgeViewer"></div>
+          <button id="MyAwesomeLockButton">Lock it!</button>
+          <button id="MyAwesomeUnlockButton">Unlock it!</button>
+        </div>
+      </div>
+    </div>
+    <div id="logo-overlay">
+
+      <div id="logo"></div>
+    </div>
+  </div>  
+  
+  
+  <script>
+  
+    var viewer;
+    
+    function launchViewer(urn,data ,SheetDetails) {
+      var options = {
+        
+        // SVF2 options
+        env: 'AutodeskProduction2',
+        api: 'streamingV2',
+        accessToken: data
+        
+        
+      };
+      
+      Autodesk.Viewing.Initializer(options, async(model) => {
+        viewer = new Autodesk.Viewing.GuiViewer3D(document.getElementById('forgeViewer'),{ extensions: ['Autodesk.VisualClusters','Autodesk.AEC.LevelsExtension','Autodesk.DocumentBrowser','Autodesk.AEC.Minimap3DExtension',"LogoExtension"] });
+        
+        
+        viewer.start();
+        var documentId =  urn;
+        
+        //Set profile settings
+        const customProfileSettings = {
+          settings: {
+            envMapBackground: false, // override existing
+            lightPreset: 12,
+              // reverseHorizontalLookDirection: true, // override existing
+              
+          },
+          // extensions: {
+          //     unload: ['Autodesk.ViewCubeUi', 'Autodesk.BimWalk']
+          // }
+        };
+        const customProfile = new Autodesk.Viewing.Profile(customProfileSettings);
+        // Updates viewer settings encapsulated witihn a Profile.
+        // This method will also load and unload extensions referenced by the Profile.
+        viewer.setProfile(customProfile);
+        // viewer.setGhosting(false);
+
+
+        Autodesk.Viewing.Document.load(documentId, onDocumentLoadSuccess, onDocumentLoadFailure);
+        
+
+        // view = new SheetsView(viewer);
+        const SheetList =[];
+        if (SheetDetails.length > 0) {
+          for (let i = 0; i< SheetDetails.length; i++){
+            SheetList.push({id:SheetDetails[i][0],scale:SheetDetails[i][1],x:SheetDetails[i][2],y:SheetDetails[i][3],z:SheetDetails[i][4]})
+          }
+        }
+        else{
+          "SheetList =[]"
+        }
+        
+        //  OVERLAYED SHEET DETAILS COME FROM SQL SERVER ! FOLLOW TEMPLATE USED BELOW
+        // const sheets = [
+        //   //{ id:15, scale:8, x:-102.7, y: -133, z: 1 },
+        //   { id:14, scale:8, x:227.22, y: -184, z: -32 },
+        //   //{ id:13, scale:8, x:-44.5, y:-144.5-52.3, z:-48, vert:false },
+        // ]
+        const viewState = {"objectSet":[{"id":[],"idType":"lmv","seedUrn":urn,"isolated":[],"hidden":[1849,1886,1942,9921,2737],"explodeScale":0},{"id":[],"idType":"lmv","seedUrn":urn,"isolated":[],"allLayers":true,"hidden":[]},{"id":[],"idType":"lmv","seedUrn":urn,"isolated":[],"allLayers":true,"hidden":[]}],"viewport":{"name":"","eye":[122.26747913393116,-193.4735768775284,116.26378009085752],"target":[117.6301309834936,-186.53738917139702,112.21983687766917],"up":[-0.24240958155721073,0.3625775561593251,0.8998750527372062],"worldUpVector":[0,0,1],"pivotPoint":[106.63111877441406,13.21699595451355,11.886348158121109],"distanceToOrbit":207.96606375686454,"aspectRatio":1.07,"projection":"perspective","isOrthographic":false,"fieldOfView":53.13010235415598}};
+        setTimeout(function () {
+
+          viewer.loadExtension('IconMarkupExtension', {
+            button: {
+                icon: 'fa-thermometer-half',
+                tooltip: 'Show Temperature'
+            },
+            icons: [
+                { dbId: 3944,   label: '300&#176;C', css: 'temperatureHigh fas fa-thermometer-full' },
+                { dbId: 721,    label: '356&#176;C', css: 'temperatureBorder temperatureHigh fas fa-thermometer-full' },
+                { dbId: 10312,  label: '450&#176;C', css: 'temperatureBorder temperatureOk fas fa-thermometer-empty' },
+                { dbId: 563,                         css: 'temperatureYellow fas fa-exclamation-triangle' },
+            ],
+            onClick: (id) => {
+                viewer.select(id);
+                viewer.utilities.fitToView();
+                switch (id){
+                    case 563:
+                        alert('Sensor offline');
+                }
+            }
+        });
+        view = viewer.loadExtension('SheetsView1', {
+            urn:'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bmFzaHZpbGxlb2ZmaWNlLzQxMTM4LjAyJTIwUmFtc2V5UGhhc2UyQ2VudHJhbFIyMV9kZXRhY2hlZC5ydnQ',
+            sheets:SheetList,
+            button: {
+                icon: 'adsk-icon-layers',
+                tooltip: 'Test For sheets'
+            },      
+        });
+        
+        // view.load(documentId, SheetList);
+      }, 5000); // Viewstate restore has been commented off in the function and a timeout has been set to load sheets AFTER 3d model
+        
+        
+      });
+    }
+
+    async function onDocumentLoadSuccess(doc) {
+      await doc.downloadAecModelData();
+      await viewer.loadExtension('Autodesk.Viewing.MarkupsCore');
+      await viewer.loadExtension("Autodesk.Viewing.MarkupsGui");
+      
+      // sprites
+      const dataVizExtn = await viewer.loadExtension("Autodesk.DataVisualization");
+      const DataVizCore = Autodesk.DataVisualization.Core;
+      const viewableType = DataVizCore.ViewableType.SPRITE;
+      const spriteColor = new THREE.Color(0xffffff);
+      const spriteIconUrl = "{{ url_for('static', filename='images/NewTux.svg') }}";
+
+      const style = new DataVizCore.ViewableStyle(viewableType, spriteColor, spriteIconUrl);
+
+      const viewableData = new DataVizCore.ViewableData();
+      viewableData.spriteSize = 24; // Sprites as points of size 24 x 24 pixels
+
+      let Sprite360RenDict = JSON.parse('{{rs360DictByID| tojson}}');
+      let SpriteDbIDLst = Object.keys(Sprite360RenDict);
+      let i, len;
+      newDatList = [];
+      for (i = 0, len = SpriteDbIDLst.length; i < len; i++) {
+        let SpriteDeet = Sprite360RenDict[SpriteDbIDLst[i]][0];
+        let SpriteLocX = SpriteDeet[1];
+        let SpriteLocY = SpriteDeet[2];
+        let SpriteLocZ = SpriteDeet[3];
+        let pos ={position:{x: SpriteLocX, y: SpriteLocY, z:SpriteLocZ}};
+        newDatList.push(pos)
+        
+      }
+      const myDataList = newDatList;
+      // Sprite DBID starts from 10 and add 1 to every list item
+      myDataList.forEach((myData, index) => {
+          const dbId = SpriteDbIDLst[index];//10 + index;
+          const position = myData.position;
+          const viewable = new DataVizCore.SpriteViewable(position, style, dbId);
+
+          viewableData.addViewable(viewable);
+      });
+
+      await viewableData.finish();
+      dataVizExtn.addViewables(viewableData);
+
+      /**
+       * Called when a user clicks on a Sprite Viewable
+       * @param {Event} event 
+       */
+      
+      // THE EVENT.DBID IS THE SPRITE'S ELEMENT ID OF SORTS
+      
+      
+      function onItemClick(event) {
+        try{
+        let SpriteDeets = Sprite360RenDict[event.dbId]
+        var panel = new MyAwesomePanel(viewer, viewer.container, 
+          '360Panorama', SpriteDeets[0][0],SpriteDeets[0][7]);
+        panel.setVisible(!panel.isVisible());
+
+        let newCameraPosition = new THREE.Vector3(SpriteDeets[0][1],SpriteDeets[0][2], SpriteDeets[0][3]);
+        let newCameraTarget = new THREE.Vector3(SpriteDeets[0][4], SpriteDeets[0][5], SpriteDeets[0][6]);
+        let upVector = viewer.navigation.getWorldUpVector();
+        let fov = viewer.navigation.getHorizontalFov();
+        viewer.navigation.setRequestTransition(true, newCameraPosition, newCameraTarget, fov,true);
+        viewer.navigation.setCameraUpVector (upVector) ;
+        console.log(`Sprite clicked: ${event.dbId}`);
+        }
+        catch(err){'skip'}
+      }
+      /**
+       *  Called when a user hovers over a Sprite Viewable 
+       * @param {Event} event 
+       */
+      function onItemHovering(event) {
+          console.log("Show tooltip here", event.dbId);
+      }
+
+      
+      viewer.addEventListener(DataVizCore.MOUSE_CLICK, onItemClick);
+      // viewer.addEventListener( Autodesk.Viewing.CUTPLANES_CHANGE_EVENT, ()=>{
+      //           console.log("the plane has been cut");
+      //       });
+     
+      // viewer.addEventListener(DataVizCore.MOUSE_HOVERING, onItemHovering);
+
+
+      
+      var masterViews = findMasterViews(doc.getRoot().findAllViewables()[0]);
+      
+
+      viewer.loadDocumentNode(doc, /* if any master view */ masterViews.length !== 0 ? /* use first */ masterViews[1] : /* or use default */ doc.getRoot().getDefaultGeometry()).then(i => {
+        // documented loaded, any action?
+        viewer.loadExtension("NestedViewerExtension", { filter: ["2d"], crossSelection: true })
+        viewer.loadExtension("GoogleMapsLocator")
+        viewer.loadExtension('Autodesk.Viewing.MemoryLimitedDebug');
+        // viewer.loadExtension('SheetsView')
+        
+        // var a = viewer.loadExtension( 'Autodesk.AEC.Hypermodeling', { hidePaper: false });
+        // a.loadSheetFromLevel(0)
+        // console.log(a);
+        //hyperModelExt.loadSheetFromLevel( 0 );
+        viewer.impl.setGhostingBrightness(false);
+        viewer.impl.invalidate(true)
+        // const root = doc.getRoot();
+        // const viewables = root.search({'type':'geometry', 'role': '3d'});
+        // console.log('Viewables:', viewables);
+        // const phaseViews = viewables.filter(v => v.data.name === v.data.phaseNames && v.getViewableRootPath().includes('08f99ae5-b8be-4f8d-881b-128675723c10'));
+        // console.log('Master Views:', phaseViews);
+
+        
+      });
+
+      
+      
+      }
+
+
+
+
+      // async function onDocumentLoadSuccess(doc) {
+      //   var aecModelData = await doc.downloadAecModelData();
+      //   var hyperModelExt = await viewer.loadExtension( 'Autodesk.AEC.Hypermodeling', { hidePaper: false } );
+      //   //var a = hyperModelExt.loadSheetFromLevel( 0 );
+      //   console.log('a');
+      // }
+
+      // async function onDocumentLoadSuccess(doc){
+      //   const aecModelData = await doc.downloadAecModelData();
+      //   console.log(aecModelData.levels) //if you want to take a look at AEC data
+      //   const hyperModelExt = await viewer.loadExtension( 'Autodesk.AEC.Hypermodeling', { hidePaper: false } );
+      // //get available sheets collection of level No #2
+      //   console.log(aecModelData.levels)
+      //   var todo = hyperModelExt.getAvailableSheetsForLevel( 1 );  
+      // // load the #1 sheet of the sheets collection of level #2 
+      //   hyperModelExt.loadSheetFromLevel( 2, 1 ) 
+      // }
+
+
+
+      // Yet to confirm if is safe to assume that Master View will be named
+      // according to the phase it represents.
+      function findMasterViews(viewable) {
+        var masterViews = [];
+        // master views are under the "folder" with this UUID
+        if (viewable.data.type === 'folder' && viewable.data.name === '08f99ae5-b8be-4f8d-881b-128675723c10') {
+          return viewable.children;
+        }
+        if (viewable.children === undefined) return;
+        viewable.children.forEach((children) => {
+          var mv = findMasterViews(children);
+          if (mv === undefined || mv.length == 0) return;
+          masterViews = masterViews.concat(mv);
+        })
+        return masterViews;
+      }
+
+      function onDocumentLoadFailure(viewerErrorCode) {
+        console.error('onDocumentLoadFailure() - errorCode:' + viewerErrorCode);
+      }
+
+      // function getForgeToken(callback) {
+        
+      //   fetch('/auth').then(res => {
+      //     res.json().then(data => {
+            
+      //       console.log(data.access_token);
+            
+      //     });
+          
+      //   });
+      // }
+      
+      $(document).ready(function () {
+        
+        queryString = window.location.search;
+        urlParams = new URLSearchParams(queryString);
+        CurrURN = urlParams.get('urn');
+        
+        let OvrlySheetDic = JSON.parse('{{OvrlyShtDict| tojson}}');
+        NewURN = String(CurrURN.split(':').join('_'))
+        let SheetDetails = OvrlySheetDic[NewURN];
+        if (SheetDetails == null){
+          SheetDetails =[]
+        }
+
+        fetch('/auth').then(res => {
+          res.json().then(data => {
+            launchViewer(CurrURN ,data.access_token,SheetDetails);
+
+          });
+          
+        });
+        
+      });
+
+  </script>
+  
+
+{% endblock content %}

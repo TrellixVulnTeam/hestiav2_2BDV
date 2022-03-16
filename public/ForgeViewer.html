@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Greshamsmith BIM Reporting Prototype</title>
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" href="https://archinect.imgix.net/uploads/59/5911c9ef1377366780444bc2083ede11.png?fit=crop&auto=compress%2Cformat&w=300">
+  <!-- Common packages: jQuery, Bootstrap, jsTree -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.7/jstree.min.js"></script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.7/themes/default/style.min.css" />
+  <!-- Autodesk Forge Viewer files -->
+  <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/style.min.css"
+    type="text/css">
+  <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/viewer3D.min.js"></script>
+  <!-- this project files -->
+  <link href="css/main.css" rel="stylesheet" />
+  <script src="js/ForgeViewer.js"></script>
+
+  <!--Chart JS  packages-->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" />
+
+  <!-- dashboard files -->
+  <script src="js/dashboard/Dashboard.js"></script>
+  <script src="js/dashboard/DashboardPanel.js"></script>
+  <script src="js/dashboard/PanelBarChart.js"></script>
+  <script src="js/dashboard/PanelPieChart.js"></script>
+  <script src="js/dashboard/Viewer2d.js"></script>
+
+
+  <!-- <script src="js/dashboard/TestExt.js"></script> -->
+  <script src="js/LogoExtension.js"></script>
+
+  <script src="js/sheetsview.js"></script>
+  <script src="js/SpriteDockingPanel.js"></script>
+
+  <!-- 2D Viewer extension (NestedViewer) -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/autodesk-forge/forge-extensions/public/extensions/NestedViewerExtension/contents/main.css">
+  <script src="//cdn.jsdelivr.net/gh/autodesk-forge/forge-extensions/public/extensions/NestedViewerExtension/contents/main.js"></script>
+
+  <!-- Google maps locator -->
+  <link rel="stylesheet" href="http://cdn.jsdelivr.net/gh/autodesk-forge/forge-extensions/public/extensions/GoogleMapsLocator/contents/main.css">
+  <!-- <script src="http://cdn.jsdelivr.net/gh/autodesk-forge/forge-extensions/public/extensions/GoogleMapsLocator/contents/main.js"></script> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" />
+
+  <!-- USE THIS GOOGLE KEY IF MINE DOES NOT WORK -->
+
+  <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBV72JOytVAAXlvey3kGB-XCu4S5XUxOs" type="text/javascript"></script> -->
+  <!-- <script src="https://cdn.jsdelivr.net/gh/autodesk-forge/forge-extensions/public/extensions/GoogleMapsLocator/contents/main.js"></script> -->
+  
+  <script src="extensions/GoogleMapsLocator/main.js"></script>
+  <!-- <script src="extensions/GoogleMapsLocator/main.css"></script> -->
+  <!-- <script>
+    var map;
+    function initMap() {
+      var chicago = new google.maps.LatLng(41.850033, -87.6500523);
+      var mapOptions = { zoom:7, mapTypeId: google.maps.MapTypeId.ROADMAP, center: chicago }
+      map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+      };
+    
+    
+  </script> -->
+  <!-- MY GOOGLE API KEY  -->
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwrL0qnFYavMMMQSd6S8xs2x5zpIG7TBg" type="text/javascript"></script>
+
+  
+
+  <!-- Google fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Zetta&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+  <script src="js/OBJLoader.js"></script>
+  <!-- Fixed navbar by Bootstrap: https://getbootstrap.com/examples/navbar-fixed-top/ -->
+  <nav id = "topNav" class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <ul id = "MainNav" class="nav navbar-nav left">
+        <li><a href="/" class="here">
+          <img alt="HESTIA" src="images/Facebook_Post_940x788_px_-_Logo-NoBG.png" height="40">
+          HESTIA</a></li>
+        <li><a href="/ForgeViewer.html" class="NavList">BIM Viewer/Data</a></li>      
+        <li><a href="/EnscapeRenderer.html" class="NavList">Enscape Render</a></li>
+      </ul>
+    </div>
+  
+  </nav>
+
+  <!-- End of navbar -->
+  
+  <div id = "loader">
+    <h1 id ="LoadScreenName">HESTIA</h1>
+    <img src="images/Facebook Post 940x788 px - Logo.gif" width="30%"/>
+  </div>
+
+ 
+  <div id = "BIM Data">
+    <div class="container-fluid fill">
+      <div class="row fill">
+        <div class="col-sm-12 fill">
+      
+          <div id="forgeViewer"></div>
+
+        </div>
+      </div>
+    </div>
+    <div id="logo-overlay">
+
+      <div id="logo"></div>
+  
+    </div>
+  </div>  
+  
+
+  
+  
+
+  
+
+  <script>
+    $(window).on('load', function(){
+      setTimeout(removeLoader, 5500); //wait for page load PLUS two seconds.
+    });
+    function removeLoader(){
+        $( "#loader" ).fadeOut(850, function() {
+          // fadeOut complete. Remove the loading div
+          $( "#loader" ).remove(); //makes page more lightweight 
+      });  
+    }
+
+  </script>
+
+</body>
+
+</html>
+

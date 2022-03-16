@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Greshamsmith BIM Reporting Prototype</title>
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" href="https://archinect.imgix.net/uploads/59/5911c9ef1377366780444bc2083ede11.png?fit=crop&auto=compress%2Cformat&w=300">
+  <!-- Common packages: jQuery, Bootstrap, jsTree -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.7/jstree.min.js"></script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.7/themes/default/style.min.css" />
+  <!-- this project files -->
+  <link href="css/main.css" rel="stylesheet" />
+
+  <script src="js/ForgeViewer.js"></script>
+ 
+  <script type="text/javascript" src="js/jquery.js"></script>
+
+  <!-- Google fonts -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lexend+Zetta&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Fixed navbar by Bootstrap: https://getbootstrap.com/examples/navbar-fixed-top/ -->
+  <nav id = "topNav" class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <ul id = "MainNav" class="nav navbar-nav left">
+        <li><a href="/" class="here">
+          <img alt="HESTIA" src="images/Facebook_Post_940x788_px_-_Logo-NoBG.png" height="40">
+          HESTIA</a></li>
+        <li><a href="/ForgeViewer.html" class="NavList">BIM Viewer/Data</a></li>      
+        <li><a href="/EnscapeRenderer.html" class="NavList">Enscape Render</a></li>
+      </ul>
+      <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
+    </div>
+    
+  </nav>
+
+  <div id="id01" class="modal">
+  
+    <form class="modal-content animate" action="app.py" method="POST">
+      <div class="imgcontainer">
+        <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+        <img src="images/icon.png" alt="Avatar" class="avatar">
+      </div>
+  
+      <div class="container">
+        <label for="uname"><b>Username</b></label>
+        <input type="text" placeholder="Enter Username" name="username" required>
+  
+        <label for="psw"><b>Password</b></label>
+        <input type="password" placeholder="Enter Password" name="password" required>
+          
+        <button type="submit">Login</button>
+        <label>
+          <input type="checkbox" checked="checked" name="remember"> Remember me
+        </label>
+      </div>
+  
+      <div class="container" style="background-color:#f1f1f1">
+        <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+        <span class="psw">Forgot <a href="#">password?</a></span>
+      </div>
+    </form>
+  </div>
+  
+  <script>
+  // Get the modal
+  var modal = document.getElementById('id01');
+  
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+      }
+  }
+  </script>
+
+
+</body>
+
+</html>
+

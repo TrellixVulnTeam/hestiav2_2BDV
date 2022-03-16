@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+  <div id="Renderer">
+    <iframe  id="Enscape" frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="this.contentWindow.focus();" allowtransparency="false"></iframe>
+    
+    <script>
+      queryString = window.location.search;
+      urlParams = new URLSearchParams(queryString);
+      var CurrEnsc = urlParams.get('Ensc');
+      document.getElementById("Enscape").src = CurrEnsc;
+    </script>
+    
+  </div> 
+
+  
+
+{% endblock content %}

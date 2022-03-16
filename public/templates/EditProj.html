@@ -1,0 +1,310 @@
+{% extends "layout.html" %}
+{% block content %}
+    
+    <style>
+        * {
+          box-sizing: border-box;
+        }
+        
+        input[type=text], select, textarea {
+          width: 100%;
+          padding: 12px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          resize: vertical;
+        }
+        
+        label {
+          padding: 12px 12px 12px 0;
+          display: inline-block;
+        }
+        
+        input[type=submit] {
+          background-color: #04AA6D;
+          color: white;
+          padding: 12px 90px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          margin-left: 40%;
+        }
+        
+        input[type=submit]:hover {
+          background-color: #45a049;
+        }
+        
+        .container1 {
+          border-radius: 5px;
+          background-color: #f2f2f2;
+          padding: 20px;
+          margin-right: 5%;
+        }
+        
+        .col-25 {
+          float: left;
+          width: 25%;
+          margin-top: 6px;
+        }
+        .col-50 {
+          float: left;
+          width: 50%;
+          margin-top: 6px;
+        }
+        .col-75 {
+          float: left;
+          width: 75%;
+          margin-top: 6px;
+        }
+        /* Create two unequal columns that floats next to each other */
+        .column {
+        float: left;
+        padding: 15px; /* Should be removed. Only for demonstration */
+        }
+
+        .left {
+        width: 60%;
+        }
+
+        .right {
+        width: 40%;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+          content: "";
+          display: table;
+          clear: both;
+        }
+        .row {
+            margin-right: 0px;
+            margin-left: 0px;
+        }
+        /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+        @media screen and (max-width: 600px) {
+          .col-25, .col-75, input[type=submit] {
+            width: 60%;
+            margin-top: 0;
+          }
+        }
+        @media screen and (max-width: 600px) {
+          .left, .right, input[type=submit] {
+            width: 80%;
+            margin-top: 0;
+          }
+        }
+        .switch {
+        position: relative;
+        display: inline-block;
+        width: 3.75em;
+        height: 2.125em;
+        margin-top: 6%;
+        }
+
+        .switch input { 
+        opacity: 0;
+        width: 0;
+        height: 0;
+        }
+
+        .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+        }
+
+        .slider:before {
+        position: absolute;
+        content: "";
+        height: 1.625em;
+        width: 1.625em;
+        left: 0.25em;
+        bottom: 0.25em;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+        }
+
+        input:checked + .slider {
+        background-color: #14e664;
+        }
+
+        input:focus + .slider {
+        box-shadow: 0 0 1px #14e664;
+        }
+
+        input:checked + .slider:before {
+        -webkit-transform: translateX(1.625em);
+        -ms-transform: translateX(1.625em);
+        transform: translateX(1.625em);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+        border-radius: 2.125em;
+        }
+
+        .slider.round:before {
+        border-radius: 50%;
+        }
+        </style>
+        </head>
+        <body>
+        
+        <h1 style= "margin-left: 7%;">Edit Project</h1>
+        <hr style= "height:2px;border-width:0px;color:rgba(43, 43, 43, 0.925);background-color:rgb(80, 80, 80);width:80%">
+        <div class="row">
+            <div class="column left">
+                <div style = "width: 100%;" class="container">
+                    <form action="/action_page.php">
+                        <div class="row">
+                            <div class="col-25">
+                            <label for="ProjectImg"> Project Image : </label>
+                            </div>
+                            <div class="col-75">
+                                <input type="file" id="myFile" name="filename">
+                            </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-25">
+                            <label for="fname">Project Name</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="text" id="fname" name="ProjName" placeholder="Project 1">
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-25">
+                            <label for="lname">Project URN</label>
+                        </div>
+                        <div class="col-75">
+                            <input type="text" id="lname" name="ProjURN" placeholder="urn:xyzyjkhsdgybedksfjlsjflsfnnlj1o2y7y3">
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-25">
+                            <label for="DateUpdated">Date Updated</label>
+                        </div>
+                        <div class="col-25">
+                            <input type="date" id="DateUpdated" name="DateUpdated">
+                        </div>
+                        <div class="col-25">
+                            <label for="PercentComp">Percent Completed</label>
+                        </div>
+                        <div class="col-25">
+                            <input type="text" id="PercentComp" name="PercentComp" placeholder="45">
+                        </div>
+                        </div>
+                        <div class="row">
+                        <div class="col-25">
+                            <label for="ProjDescr">Project Description</label>
+                        </div>
+                        <div class="col-75">
+                            <textarea id="ProjDescr" name="ProjDescr" placeholder="This is a stunning project with sustainable features..." style="height:200px"></textarea>
+                        </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="column right">
+                <div class="container1">
+                    <h2 style="margin-left: 40%;">MODULES</h2>
+                    <form action="/action_page.php">
+                        <div class="row">
+                            <div class="col-25">
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <div class="col-25">
+                                <label for="EnscURL"> Enscape URL : </label>
+                            </div>
+                            <div class="col-50">
+                                <input type="text" id="EnscURL" name="EnscURL" placeholder="https://Enscape3DRender.com">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-25">
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <div class="col-25">
+                                <label for="PowerBIURL"> Power BI URL : </label>
+                            </div>
+                            <div class="col-50">
+                                <input type="text" id="PowerBIURL" name="PowerBIURL" placeholder="https://PowerBIReport.com">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-25">
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <div class="col-75">
+                                <label for="Scope"> Scope, Budget & Schedules </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-25">
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <div class="col-75">
+                                <label for="Checklist"> Checklist </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-25">
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <div class="col-75">
+                                <label for="MyFiles"> MyFiles </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-25">
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <div class="col-75">
+                                <label for="ProjTeam"> Project Team </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-25">
+                                <label class="switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <div class="col-75">
+                                <label for="DesOpts"> Design Options </label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <input type="submit" value="Submit">
+        </div>
+        </body>
+{% endblock content %}

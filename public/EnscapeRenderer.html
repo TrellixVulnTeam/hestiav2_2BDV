@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Greshamsmith BIM Reporting Prototype</title>
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" href="https://archinect.imgix.net/uploads/59/5911c9ef1377366780444bc2083ede11.png?fit=crop&auto=compress%2Cformat&w=300">
+  <!-- Common packages: jQuery, Bootstrap, jsTree -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.7/jstree.min.js"></script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.7/themes/default/style.min.css" />
+  <!-- this project files -->
+  <link href="css/main.css" rel="stylesheet" />
+
+</head>
+
+<body>
+  <!-- Fixed navbar by Bootstrap: https://getbootstrap.com/examples/navbar-fixed-top/ -->
+  <nav id = "topNav" class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav left">
+        <li>
+            <a href="/" class="here">
+                <img alt="HESTIA" src="images/Facebook_Post_940x788_px_-_Logo-NoBG.png" height="40">
+            </a>
+        </li>
+      </ul>
+    </div>
+    <div> 
+      <a href="/ForgeViewer.html" >BIM Viewer/Data</a>      
+      <a href="/EnscapeRenderer.html" >Enscape Render</a>          
+  </div>
+  </nav>
+
+  <div id = "loader">
+    <h1 id ="LoadScreenName">HESTIA</h1>
+    <img src="images/Facebook Post 940x788 px - Logo.gif" width="30%"/>
+  </div>
+
+
+
+
+  <!-- End of navbar -->
+
+  <div id="Renderer">
+    
+    <iframe src="https://api2.enscape3d.com/v1/view/09384048-689e-4b5a-b7bf-aeb0ca1f1065" id="Enscape" frameborder="0" marginwidth="0" marginheight="0" scrolling="auto" onload="this.contentWindow.focus();" allowtransparency="false"></iframe>
+    
+  </div> 
+
+  <script>
+    $(window).on('load', function(){
+      setTimeout(removeLoader, 6000); //wait for page load PLUS _ seconds.
+    });
+    function removeLoader(){
+        $( "#loader" ).fadeOut(850, function() {
+          // fadeOut complete. Remove the loading div
+          $( "#loader" ).remove(); //makes page more lightweight 
+      });  
+    }
+
+  </script>
+</body>
+
+</html>
+

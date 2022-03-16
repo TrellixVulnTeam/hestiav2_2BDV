@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      
+      .navbar-brand.abs
+    {
+        position: absolute;
+        width: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        font-size: 24px;
+
+    }
+      .navbar a {
+        float: left;
+      }
+      .dropdown {
+        overflow: hidden;
+      }
+
+
+      .dropdown .dropbtn {
+        font-size: inherit;  
+        border: none;
+        outline: none;
+        font-size: 15px;
+        transition: 500ms;
+        color: rgb(110, 110, 110);
+        background-color: inherit;
+        font-family: inherit;
+        margin: 5px;
+      }
+      .dropdown-content {
+        display: none;
+        position: fixed;
+        margin-top: 42px;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+      }
+      .dropdown-content a {
+        float: none;
+        color: rgb(71, 71, 71);
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+        text-shadow: 0 0 black;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #ddd;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+    </style>
+    {% if title %}
+        <title>Greshamsmith BIM Portal - {{ title }}</title>
+    {% else %}
+        <title>Greshamsmith BIM Portal</title>
+    {% endif %}
+    
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="https://archinect.imgix.net/uploads/59/5911c9ef1377366780444bc2083ede11.png?fit=crop&auto=compress%2Cformat&w=300">
+    <!-- Common packages: jQuery, Bootstrap, jsTree -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.7/jstree.min.js"></script>
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jstree/3.3.7/themes/default/style.min.css" />
+    
+    <!-- this project files -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/mains.css') }}">
+  
+    <!-- <script src="{{ url_for('static', filename='js/ForgeViewer.js') }}"></script> -->
+
+   
+    <!-- <script type="text/javascript" src="js/jquery.js"></script> -->
+  
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Zetta&display=swap" rel="stylesheet">
+
+
+    <!-- Autodesk Forge Viewer files -->
+    <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.58/style.min.css"
+    type="text/css">
+    <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.58/viewer3D.min.js"></script>
+    <!-- this project files -->
+
+    <!-- <script src="js/ForgeViewer.js"></script> -->
+
+    <!--Chart JS  packages-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" />
+
+    <!-- dashboard files -->
+    <script src="{{ url_for('static', filename='js/dashboard/Dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboard/DashboardPanel.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboard/PanelBarChart.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboard/PanelPieChart.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dashboard/Viewer2d.js') }}"></script>
+    
+    <!-- <script src="js/dashboard/TestExt.js"></script> -->
+    <script src="{{ url_for('static', filename='js/LogoExtension.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/SpriteDockingPanel.js') }}"></script>
+    
+
+    <!-- 2D Viewer extension (NestedViewer) -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/autodesk-forge/forge-extensions/public/extensions/NestedViewerExtension/contents/main.css">
+    <script src="//cdn.jsdelivr.net/gh/autodesk-forge/forge-extensions/public/extensions/NestedViewerExtension/contents/main.js"></script>
+
+    <!-- Google maps locator -->
+    <link rel="stylesheet" href="http://cdn.jsdelivr.net/gh/autodesk-forge/forge-extensions/public/extensions/GoogleMapsLocator/contents/main.css">
+    <!-- <script src="http://cdn.jsdelivr.net/gh/autodesk-forge/forge-extensions/public/extensions/GoogleMapsLocator/contents/main.js"></script> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" />
+
+    <!-- USE THIS GOOGLE KEY IF MINE DOES NOT WORK -->
+
+    <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDBV72JOytVAAXlvey3kGB-XCu4S5XUxOs" type="text/javascript"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/gh/autodesk-forge/forge-extensions/public/extensions/GoogleMapsLocator/contents/main.js"></script> -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <!-- <script src="extensions/GoogleMapsLocator/main.js"></script> -->
+    <!-- <script src="extensions/GoogleMapsLocator/main.css"></script> -->
+    <!-- <script>
+      var map;
+      function initMap() {
+        var chicago = new google.maps.LatLng(41.850033, -87.6500523);
+        var mapOptions = { zoom:7, mapTypeId: google.maps.MapTypeId.ROADMAP, center: chicago }
+        map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+        };
+      
+      
+    </script> -->
+    <!-- MY GOOGLE API KEY  -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwrL0qnFYavMMMQSd6S8xs2x5zpIG7TBg" type="text/javascript"></script>
+
+
+
+
+
+  </head>
+
+  <body>
+    <script> 
+    $(window).on('load', function(){
+      setTimeout(removeLoader, 5500); //wait for page load PLUS two seconds.
+    });
+    function removeLoader(){
+        $( "#loader" ).fadeOut(850, function() {
+          // fadeOut complete. Remove the loading div
+          $( "#loader" ).remove(); //makes page more lightweight 
+      });  
+    }
+    </script>
+    <script src="{{ url_for('static', filename='js/OBJLoader.js') }}"></script>
+    <div id = "loader">
+      <h1 id ="LoadScreenName">HESTIA</h1>
+      <img src="https://hestiatest.blob.core.windows.net/general-layout/Facebook Post 940x788 px - Logo.gif" width="30%"/>
+    </div>
+    <header class="site-header">
+    <!-- Fixed navbar by Bootstrap: https://getbootstrap.com/examples/navbar-fixed-top/ -->
+      <nav id = "topNav" class="navbar navbar-default navbar-fixed-top ">
+        <div class="container-fluid" style="vertical-align: middle;">
+          <div id = "MainNav" class="nav navbar-nav " >
+            <a href="/" class="here">
+              <img alt="HESTIA" src="https://hestiatest.blob.core.windows.net/general-layout/Facebook_Post_940x788_px_-_Logo-NoBG.png" height="40">
+              HESTIA</a>
+            {% if current_user.is_authenticated %}
+              <a href="{{ url_for('MyProjects') }}"class="nav-item">MY PROJECTS</a>
+              {% if current_user.get_Auth() >= 4 %}
+              <a href="{{ url_for('AssignedMarkups') }}"class="nav-item">Assigned Markups</a>
+              <div class="dropdown">
+                <button class="dropbtn">CREATE 
+                  <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                  <a href="{{ url_for('CreateNewProj') }}">New Project</a>
+                  <a href="{{ url_for('CreateNewUser') }}">Add/Edit User</a>
+                  <a href="{{ url_for('AddEditMemProfile') }}">Add/Edit Member Profile</a>
+                </div>
+              </div> 
+              {% elif current_user.get_Auth() == 2 or current_user.get_Auth() == 3 %}
+                <a href="{{ url_for('AssignedMarkups') }}"class="nav-item">Assigned Markups</a>
+              <!-- <li><a href="{{ url_for('Enscape') }}"class="NavList">Enscape Render</a></li> -->
+              {% else %}
+              {% endif %}
+            {% else %}
+            {% endif %}
+          </div>
+ 
+          <div id = "MainNav" class="nav navbar-nav navbar-expand-md justify-content-center"><a id = "Projname" class="navbar-brand abs" href="#">{{key}}</a></div>
+
+          <div id = "MainNav" class="nav navbar-nav navbar-right">
+            
+            {% if current_user.is_authenticated %}
+              {% if current_user.get_Auth() >= 3 %}
+                <a class="nav-item " href="{{ url_for('AdminMarkups') }}">Admin Markups</a>
+                <a class="nav-item " href="{{ url_for('InternalBIM') }}">Internal BIM</a>
+              {% else %}
+              {% endif %}
+              <a class="nav-item" href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+              <a class="nav-item" href="{{ url_for('login') }}">LogIn</a>
+            {% endif %}
+            <!-- <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button> -->
+          </div>
+        </div>
+      
+      </nav>
+    </header>
+    
+    <main role="main" >
+        
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div id = "LogIn_Alert" class="alert alert-{{ category }}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+
+    </main>
+    
+  </body>
+</html>

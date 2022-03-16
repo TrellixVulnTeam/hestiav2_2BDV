@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+{% block content %}
+<style>
+    .container {
+      border: 2px solid #ccc;
+      background-color: #eee;
+      border-radius: 5px;
+      padding: 16px;
+     
+    }
+    
+    .container::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+    
+    .container img {
+      float: left;
+      margin-right: 20px;
+      border-radius: 50%;
+    }
+    
+    .container span {
+      font-size: 20px;
+      margin-right: 15px;
+    }
+    
+    @media (max-width:1000px) {
+      .container {
+          text-align: center;
+      }
+      .container img {
+          margin: auto;
+          float: none;
+          display: block;
+      }
+    }
+    .col {
+      padding-left: 20px;
+      padding-top: 10px;
+      }
+
+    .headline {
+      display: inline-flex;
+      vertical-align: top;
+      margin-left: 40%;
+      flex-direction: row;
+      align-items: center;
+    }
+</style>
+<div class="headline">
+  <h1 style="text-align: center;">My Project Team</h1>
+  {% if current_user.get_Auth() >= 3 %}
+    <div class="col">
+      <a id="EditProjTeam"><img class="img-thumbnail" width="35" height=auto src="https://hestiatest.blob.core.windows.net/general-layout/icons8-edit-48.png@2x.png" ></a>
+    </div>
+  {% else %}
+  {% endif %}
+</div>
+{% for pT in ProjTeam %}
+    <div class="container">
+        <img src="https://hestiatest.blob.core.windows.net/project-team-profilepics/{{pT.ProfilePic}}" alt="Avatar" style="width:200px; height: 180px;">
+        <div class="article-metadata">
+            <h2>{{ pT.MemName }}</h2>
+            <h3>{{pT.JobTitle}}</h3>
+            <small class="text-muted">Personal Quote : {{ pT.Quote }}</small>
+        </div>
+        <p class="article-content">{{ pT.Descr }}</p>
+    </div>
+    <hr style= "height:1px;border-width:0px;color:rgba(44, 44, 44, 0.925);background-color:rgb(80, 80, 80);width:40%">
+{% endfor %}
+<script>
+  let CurrProjURN = JSON.parse('{{CurrProjURN| tojson}}');
+  var EditProjTeam = document.getElementById("EditProjTeam");
+  EditProjTeam.setAttribute("href", "{{ url_for('EditProjMemProfile') }}"); 
+  EditProjTeam.setAttribute("onclick","location.href=this.href+'?urn={{CurrProjURN}}';return false;");
+</script>
+{% endblock content %}
+
